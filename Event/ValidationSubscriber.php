@@ -72,7 +72,8 @@ class ValidationSubscriber implements \Doctrine\Common\EventSubscriber
         
         if (!in_array($class, $this->skip))
         {
-            if($property) //validate just a single property
+            //validate just a single property & the property has some annotations.
+            if($property && $this->validator->getMetadataFactory()->getClassMetadata($class)->hasMemberMetadatas($property))
             {
                 $constraintViolations = $this->validator->validateProperty($entity, $property);
             }
